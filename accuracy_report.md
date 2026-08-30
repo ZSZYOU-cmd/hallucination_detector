@@ -27,6 +27,40 @@ The final evaluation was run on the combined predictions dataset after chunked b
 | Binary accuracy | 0.8023 | Accuracy for hallucination vs non-hallucination classification |
 | Subtype accuracy | 0.4471 | Accuracy for hallucination subtype assignment among true hallucination rows |
 
+## Detector Column Definitions
+
+### hallucination_detector
+- This is the label for the main binary decision.
+- It answers: “Is this answer a hallucination or not?”
+- Typical values:
+  - non_hallucination
+  - entity_hallucination
+  - numerical_hallucination
+  - reasoning_errors
+  - etc.
+- In practice, it is the model’s chosen label after the one-vs-rest prompt, not just a true/false flag.
+
+### hallucination_detector_is_hallucination
+- This is the boolean companion to the first one.
+- It answers: “True or false: is there a hallucination?”
+- Typical values:
+  - True
+  - False
+
+### hallucination_detector_type
+- This is the subtype label only when the answer is considered a hallucination.
+- If the detector says it is not a hallucination, this usually becomes non_hallucination.
+- It is the more specific category label, such as:
+  - entity_hallucination
+  - numerical_hallucination
+  - temporal_hallucination
+  - reasoning_errors
+
+### In simple terms
+- hallucination_detector = overall label
+- hallucination_detector_type = subtype/category label
+- hallucination_detector_is_hallucination = yes/no flag
+
 ## Subtype Accuracy by Category
 The overall subtype accuracy of 0.4471 is computed only on rows where the true label is a hallucination. It measures how often the predicted subtype exactly matches the true subtype for those rows.
 
